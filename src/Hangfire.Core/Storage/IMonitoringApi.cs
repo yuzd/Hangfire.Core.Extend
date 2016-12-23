@@ -32,7 +32,7 @@ namespace Hangfire.Storage
 
         JobList<ProcessingJobDto> ProcessingJobs(int from, int count);
         JobList<ScheduledJobDto> ScheduledJobs(int from, int count);
-        JobList<SucceededJobDto> SucceededJobs(int from, int count);
+        JobList<SucceededJobDto> SucceededJobs(int from, int count,string name = null);
         JobList<FailedJobDto> FailedJobs(int from, int count);
         JobList<DeletedJobDto> DeletedJobs(int from, int count);
 

@@ -476,3 +476,25 @@
 $(function () {
     Hangfire.page = new Hangfire.Page(Hangfire.config);
 });
+$(function () {
+    
+    $('#search')
+        .click(function() {
+            var title = $('#title').val();
+            if (title) {
+                location.href = baseUrl + '?from=0&count=10&name=' + title;
+            } else {
+                location.href = baseUrl + '?from=0&count=10';
+            }
+        });
+
+    if (name) {
+        //$('#title').val(name);
+        try {
+            $('.btn-toolbar-label').hide();
+            $('.paginator').hide();
+        } catch (e) {
+
+        }
+    } 
+});

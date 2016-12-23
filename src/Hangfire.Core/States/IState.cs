@@ -122,7 +122,7 @@ namespace Hangfire.States
         /// through the public setter.
         /// </note>
         /// </remarks>
-        [CanBeNull] string Reason { get; set; }
+        [CanBeNull] string Reason { get;}
 
         /// <summary>
         /// Gets if the current state is a <i>final</i> one.

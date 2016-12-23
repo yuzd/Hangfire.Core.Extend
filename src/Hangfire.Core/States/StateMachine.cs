@@ -59,13 +59,8 @@ namespace Hangfire.States
                 filter.OnStateElection(electContext);
             }
 
-            var jobName = GetJobName(electContext.BackgroundJob.Job);
             foreach (var state in electContext.TraversedStates)
             {
-                if (!string.IsNullOrEmpty(jobName) && state.Name.Equals("Succeeded"))
-                {
-                    state.Reason = jobName;
-                }
                 initialContext.Transaction.AddJobState(electContext.BackgroundJob.Id, state);
             }
 
@@ -92,28 +87,6 @@ namespace Hangfire.States
         {
             return new JobFilterInfo(_filterProvider.GetFilters(job));
         }
-        private static string GetJobName(Job job)
-        {
-
-            if (job == null)
-            {
-                return Strings.Common_CannotFindTargetMethod;
-            }
-
-            var displayNameAttribute = job.Method.GetCustomAttribute(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
-            if (displayNameAttribute != null && displayNameAttribute.DisplayName != null)
-            {
-                try
-                {
-                    return String.Format(displayNameAttribute.DisplayName, job.Args.ToArray());
-                }
-                catch (FormatException)
-                {
-                    return displayNameAttribute.DisplayName;
-                }
-            }
-
-            return job.ToString();
-        }
+      
     }
 }

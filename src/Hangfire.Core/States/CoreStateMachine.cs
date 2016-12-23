@@ -48,11 +48,6 @@ namespace Hangfire.States
                 handler.Unapply(context, context.Transaction);
             }
 
-            var jobName = GetJobName(context.BackgroundJob.Job);
-            if (!string.IsNullOrEmpty(jobName) && context.NewState.Name.Equals("Succeeded"))
-            {
-                context.NewState.Reason = jobName;
-            }
             context.Transaction.SetJobState(context.BackgroundJob.Id, context.NewState);
 
             foreach (var handler in handlers.GetHandlers(context.NewState.Name))
@@ -80,27 +75,6 @@ namespace Hangfire.States
 
             return stateHandlers;
         }
-        private static string GetJobName(Job job)
-        {
-
-            if (job == null)
-            {
-                return Strings.Common_CannotFindTargetMethod;
-            }
-
-            var displayNameAttribute = job.Method.GetCustomAttribute(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
-            if (displayNameAttribute != null && displayNameAttribute.DisplayName != null)
-            {
-                try
-                {
-                    return String.Format(displayNameAttribute.DisplayName, job.Args.ToArray());
-                }
-                catch (FormatException)
-                {
-                    return displayNameAttribute.DisplayName;
-                }
-            }
-            return job.ToString();
-        }
+       
     }
 }
