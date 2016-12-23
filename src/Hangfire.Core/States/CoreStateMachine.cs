@@ -1,5 +1,5 @@
 // This file is part of Hangfire.
-// Copyright © 2013-2014 Sergey Odinokov.
+// Copyright ?2013-2014 Sergey Odinokov.
 // 
 // Hangfire is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as 
@@ -15,7 +15,12 @@
 // License along with Hangfire. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
+using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 using Hangfire.Annotations;
+using Hangfire.Common;
+using Hangfire.Dashboard.Resources;
 
 namespace Hangfire.States
 {
@@ -43,6 +48,11 @@ namespace Hangfire.States
                 handler.Unapply(context, context.Transaction);
             }
 
+            var jobName = GetJobName(context.BackgroundJob.Job);
+            if (!string.IsNullOrEmpty(jobName) && context.NewState.Name.Equals("Succeeded"))
+            {
+                context.NewState.Reason = jobName;
+            }
             context.Transaction.SetJobState(context.BackgroundJob.Id, context.NewState);
 
             foreach (var handler in handlers.GetHandlers(context.NewState.Name))
@@ -69,6 +79,28 @@ namespace Hangfire.States
             stateHandlers.AddRange(storage.GetStateHandlers());
 
             return stateHandlers;
+        }
+        private static string GetJobName(Job job)
+        {
+
+            if (job == null)
+            {
+                return Strings.Common_CannotFindTargetMethod;
+            }
+
+            var displayNameAttribute = job.Method.GetCustomAttribute(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+            if (displayNameAttribute != null && displayNameAttribute.DisplayName != null)
+            {
+                try
+                {
+                    return String.Format(displayNameAttribute.DisplayName, job.Args.ToArray());
+                }
+                catch (FormatException)
+                {
+                    return displayNameAttribute.DisplayName;
+                }
+            }
+            return job.ToString();
         }
     }
 }
