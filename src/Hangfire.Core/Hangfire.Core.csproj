@@ -73,6 +73,11 @@
     <Compile Include="Dashboard\Owin\OwinDashboardContextExtensions.cs" />
     <Compile Include="Dashboard\Owin\OwinDashboardRequest.cs" />
     <Compile Include="Dashboard\Owin\OwinDashboardResponse.cs" />
+    <Compile Include="Dashboard\Pages\QueuesPage1.generated.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>QueuesPage.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Obsolete\RequestDispatcherWrapper.cs" />
     <Compile Include="JobActivatorContext.cs" />
     <Compile Include="IRecurringJobManager.cs" />
@@ -221,11 +226,6 @@
     </Compile>
     <Compile Include="Dashboard\Pages\ProcessingJobsPage.generated.cs">
       <DependentUpon>ProcessingJobsPage.cshtml</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Dashboard\Pages\QueuesPage.generated.cs">
-      <DependentUpon>QueuesPage.cshtml</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
@@ -461,7 +461,7 @@
     </None>
     <None Include="Dashboard\Pages\QueuesPage.cshtml">
       <Generator>RazorGenerator</Generator>
-      <LastGenOutput>QueuesPage.generated.cs</LastGenOutput>
+      <LastGenOutput>QueuesPage1.generated.cs</LastGenOutput>
     </None>
     <None Include="Dashboard\Pages\RecurringJobsPage.cshtml">
       <Generator>RazorGenerator</Generator>

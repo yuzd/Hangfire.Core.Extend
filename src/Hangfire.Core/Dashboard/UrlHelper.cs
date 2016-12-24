@@ -56,6 +56,11 @@ namespace Hangfire.Dashboard
             return To("/");
         }
 
+        public string WebApiUrl(string key)
+        {
+            return ApiPath[key];
+        }
+        public Dictionary<string,string> ApiPath { get; set; } 
         public string JobDetails(string jobId)
         {
             return To("/jobs/details/" + jobId);

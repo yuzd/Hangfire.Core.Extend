@@ -111,7 +111,8 @@ WriteLiteral("\r\n<div class=\"row\">\r\n    <div class=\"col-md-12\">\r\n      
             
             #line default
             #line hidden
-WriteLiteral("</h1>\r\n\r\n");
+WriteLiteral(" <button type=\"button\" class=\"btn\" style=\"float: inherit;margin-right: 10px\" id=\"" +
+"addBackgroundJob\">新增周期性作业</button></h1>\r\n\r\n");
 
 
             
@@ -822,7 +823,29 @@ WriteLiteral("            </div>\r\n");
             
             #line default
             #line hidden
-WriteLiteral("    </div>\r\n</div>    ");
+WriteLiteral(@"        <div class=""modal inmodal"" id=""addBackgroundJobModal"" tabindex=""-1"" role=""dialog"" aria-hidden=""true"">
+            <div class=""modal-dialog"">
+                <div class=""modal-content"">
+                    <div class=""modal-header"">
+                        <h4 class=""modal-title"">新增作业</h4>
+                    </div>
+                    <div class=""modal-body"">
+                        <div class=""editor_holder"" style=""height: 250px;""></div>
+                    </div>
+                    <div class=""modal-footer"">
+                        <button type=""button"" class=""btn btn-white"" id=""addBackgroundJob_close-model"">关闭</button>
+                        <button type=""button"" class=""btn btn-primary"" id=""addBackgroundJob_save-model"" data-url=""");
+
+
+            
+            #line 206 "..\..\Dashboard\Pages\RecurringJobsPage.cshtml"
+                                                                                                            Write(Url.WebApiUrl("CreateRecurringJob"));
+
+            
+            #line default
+            #line hidden
+WriteLiteral("\">提交</button>\r\n                    </div>\r\n                </div>\r\n            </" +
+"div>\r\n        </div>\r\n    </div>\r\n</div>    ");
 
 
         }
