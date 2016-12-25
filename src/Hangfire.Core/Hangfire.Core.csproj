@@ -73,6 +73,11 @@
     <Compile Include="Dashboard\Owin\OwinDashboardContextExtensions.cs" />
     <Compile Include="Dashboard\Owin\OwinDashboardRequest.cs" />
     <Compile Include="Dashboard\Owin\OwinDashboardResponse.cs" />
+    <Compile Include="Dashboard\Pages\CornJobsPage.generated.cs">
+      <DependentUpon>CornJobsPage.cshtml</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <Compile Include="Dashboard\Pages\QueuesPage1.generated.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -427,6 +432,10 @@
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>AwaitingJobsPage.generated.cs</LastGenOutput>
     </None>
+    <None Include="Dashboard\Pages\CornJobsPage.cshtml">
+      <Generator>RazorGenerator</Generator>
+      <LastGenOutput>CornJobsPage.generated.cs</LastGenOutput>
+    </None>
     <None Include="Dashboard\Pages\HomePage.cshtml">
       <Generator>RazorGenerator</Generator>
       <LastGenOutput>HomePage.generated.cs</LastGenOutput>
@@ -523,6 +532,9 @@
     <EmbeddedResource Include="Dashboard\Content\css\hangfire.css" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\css\chosen.min.css" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Dashboard\Content\css\rickshaw.min.css" />
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +553,12 @@
     <EmbeddedResource Include="Dashboard\Content\js\hangfire.js" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\js\chosen.jquery.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\js\cornindex.js" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="Dashboard\Content\js\moment.min.js" />
   </ItemGroup>
   <ItemGroup>
@@ -549,6 +567,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Dashboard\Content\js\jquery-2.1.4.min.js" />
     <EmbeddedResource Include="Dashboard\Content\js\moment-with-locales.min.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\fonts\chosen-sprite.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Dashboard\Content\fonts\chosen-sprite%402x.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

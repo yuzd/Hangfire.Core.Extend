@@ -26,17 +26,20 @@ namespace Hangfire.Dashboard
         {
             "jquery-2.1.4.min.js", 
             "bootstrap.min.js",
+            "chosen.jquery.min.js",
             "moment.min.js",
             "moment-with-locales.min.js",
             "d3.min.js", 
             "d3.layout.min.js", 
-            "rickshaw.min.js", 
+            "rickshaw.min.js",
+            "cornindex.js", 
             "hangfire.js"
         };
 
         private static readonly string[] Stylesheets =
         {
-            "bootstrap.min.css", 
+            "bootstrap.min.css",
+            "chosen.min.css",
             "rickshaw.min.css", 
             "hangfire.css"
         };
@@ -85,7 +88,11 @@ namespace Hangfire.Dashboard
                 "font/woff2",
                 GetExecutingAssembly(),
                 GetContentResourceName("fonts", "glyphicons-halflings-regular.woff2")));
-
+            Routes.Add("/fonts/chosen-sprite.png", new EmbeddedResourceDispatcher(
+               "image/png",
+               GetExecutingAssembly(),
+               GetContentResourceName("fonts", "chosen-sprite.png")));
+           
             #endregion
 
             #region Razor pages and commands
@@ -177,7 +184,7 @@ namespace Hangfire.Dashboard
 
             Routes.AddRazorPage("/servers", x => new ServersPage());
             Routes.AddRazorPage("/retries", x => new RetriesPage());
-
+            Routes.AddRazorPage("/corn", x => new CornJobsPage());
             #endregion
         }
 

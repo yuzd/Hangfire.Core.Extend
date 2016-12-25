@@ -511,6 +511,12 @@ $(function () {
         }
     }
 
+    $('#corn_Create')
+        .click(function() {
+
+            location.replace('/corn');
+        });
+
     $('#addBackgroundJob').click(function () {
         window.jsonEditor.setText(templete);
         window.jsonEditor.format();
@@ -526,11 +532,16 @@ $(function () {
     $('#addBackgroundJob_save-model').click(function () {
         var url = $(this).data("url");
         if (!url) return;
+        var data = window.jsonEditor.get();
+        if (!data) return;
+        if (data.Corn && data.Corn.split(' ').length !== 5) {
+            return;
+        }
         var settings = {
             "async": true,
             "url": url,
             "method": "POST",
-            "data": window.jsonEditor.get()
+            "data": data
         }
         $.ajax(settings).done(function (response) {
             alert('success');
