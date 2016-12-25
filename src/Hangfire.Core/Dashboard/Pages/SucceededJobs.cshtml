@@ -8,16 +8,20 @@
     Layout = new LayoutPage(Strings.SucceededJobsPage_Title);
 
     int from, perPage;
-
+    string title = Query("name");
     int.TryParse(Query("from"), out from);
     int.TryParse(Query("count"), out perPage);
 
     var monitor = Storage.GetMonitoringApi();
     var pager = new Pager(from, perPage, monitor.SucceededListCount());
-    var succeededJobs = monitor.SucceededJobs(pager.FromRecord, pager.RecordsPerPage);
+    var succeededJobs = monitor.SucceededJobs(pager.FromRecord, pager.RecordsPerPage, title);
 }
 
 <div class="row">
+    <script type="text/javascript">
+        var baseUrl = "@Url.To("/jobs/succeeded")";
+        var name = "@Query("name")";
+    </script>
     <div class="col-md-3">
         @Html.JobsSidebar()
     </div>
@@ -41,67 +45,68 @@
                         <span class="glyphicon glyphicon-repeat"></span>
                         @Strings.Common_RequeueJobs
                     </button>
-
+                    <input type="text" id="title" class="input-medium search-query" style="display: inline-block; padding: 4px 6px; font-size: 14px; line-height: 20px; color: #555555; vertical-align: middle; margin-left: 10px; width: 300px;" placeholder="输入名称.." value="@Query("name")"/>
+                    <button type="button" class="btn" style="float: inherit;" id="search">查询</button>
                     @Html.PerPageSelector(pager)
                 </div>
 
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
-                            <tr>
-                                <th class="min-width">
-                                    <input type="checkbox" class="js-jobs-list-select-all" />
-                                </th>
-                                <th class="min-width">@Strings.Common_Id</th>
-                                <th>@Strings.Common_Job</th>
-                                <th class="min-width">@Strings.SucceededJobsPage_Table_TotalDuration</th>
-                                <th class="align-right">@Strings.SucceededJobsPage_Table_Succeeded</th>
-                            </tr>
+                        <tr>
+                            <th class="min-width">
+                                <input type="checkbox" class="js-jobs-list-select-all"/>
+                            </th>
+                            <th class="min-width">@Strings.Common_Id</th>
+                            <th>作业名称</th>
+                            <th class="min-width">执行时间</th>
+                            <th class="align-right">@Strings.SucceededJobsPage_Table_Succeeded</th>
+                        </tr>
                         </thead>
                         <tbody>
-                            @foreach (var job in succeededJobs)
-                            {
-                                <tr class="js-jobs-list-row @(job.Value == null || !job.Value.InSucceededState ? "obsolete-data" : null) @(job.Value != null && job.Value.InSucceededState ? "hover" : null)">
-                                    <td>
-                                        @if (job.Value == null || job.Value.InSucceededState)
-                                        {
-                                            <input type="checkbox" class="js-jobs-list-checkbox" name="jobs[]" value="@job.Key" />
-                                        }
-                                    </td>
-                                    <td class="min-width">
-                                        @Html.JobIdLink(job.Key)
-                                        @if (job.Value != null && !job.Value.InSucceededState)
-                                        {
-                                            <span title="@Strings.Common_JobStateChanged_Text" class="glyphicon glyphicon-question-sign"></span>
-                                        }
-                                    </td>
+                        @foreach (var job in succeededJobs)
+                        {
+                            <tr class="js-jobs-list-row @(job.Value == null || !job.Value.InSucceededState ? "obsolete-data" : null) @(job.Value != null && job.Value.InSucceededState ? "hover" : null)">
+                                <td>
+                                    @if (job.Value == null || job.Value.InSucceededState)
+                                    {
+                                        <input type="checkbox" class="js-jobs-list-checkbox" name="jobs[]" value="@job.Key"/>
+                                    }
+                                </td>
+                                <td class="min-width">
+                                    @Html.JobIdLink(job.Key)
+                                    @if (job.Value != null && !job.Value.InSucceededState)
+                                    {
+                                        <span title="@Strings.Common_JobStateChanged_Text" class="glyphicon glyphicon-question-sign"></span>
+                                    }
+                                </td>
 
-                                    @if (job.Value == null)
-                                    {
-                                        <td colspan="3">
-                                            <em>@Strings.Common_JobExpired</em>
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td class="word-break">
-                                            @Html.JobNameLink(job.Key, job.Value.Job)
-                                        </td>
-                                        <td class="min-width align-right">
-                                            @if (job.Value.TotalDuration.HasValue)
-                                            {
-                                                @Html.ToHumanDuration(TimeSpan.FromMilliseconds(job.Value.TotalDuration.Value), false)
-                                            }
-                                        </td>
-                                        <td class="min-width align-right">
-                                            @if (job.Value.SucceededAt.HasValue)
-                                            {
-                                                @Html.RelativeTime(job.Value.SucceededAt.Value)
-                                            }
-                                        </td>
-                                    }
-                                </tr>
-                            }
+                                @if (job.Value == null)
+                                {
+                                    <td colspan="3">
+                                        <em>@Strings.Common_JobExpired</em>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td class="word-break">
+                                        @Html.JobNameLink(job.Key, job.Value.Job)
+                                    </td>
+                                    <td class="min-width align-right">
+                                        @if (job.Value.TotalDuration.HasValue)
+                                        {
+                                            @Html.ToHumanDuration(TimeSpan.FromMilliseconds(job.Value.TotalDuration.Value), false)
+                                        }
+                                    </td>
+                                    <td class="min-width align-right">
+                                        @if (job.Value.SucceededAt.HasValue)
+                                        {
+                                            @Html.RelativeTime(job.Value.SucceededAt.Value)
+                                        }
+                                    </td>
+                                }
+                            </tr>
+                        }
                         </tbody>
                     </table>
                 </div>

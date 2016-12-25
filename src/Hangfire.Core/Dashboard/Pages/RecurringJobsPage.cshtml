@@ -34,7 +34,8 @@
 
 <div class="row">
     <div class="col-md-12">
-        <h1 class="page-header">@Strings.RecurringJobsPage_Title</h1>
+        <h1 class="page-header">@Strings.RecurringJobsPage_Title <button type="button" class="btn" style="float: inherit;margin-right: 10px" id="addBackgroundJob">新增周期性作业</button>
+            <a style="margin-right: 10px;    font-size: 15px;" href="corn">Corn在线生成</a></h1>
 
         @if (recurringJobs.Count == 0)
         {
@@ -192,5 +193,21 @@
                 }
             </div>
         }
+        <div class="modal inmodal" id="addBackgroundJobModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">新增作业</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="editor_holder" style="height: 250px;"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-white" id="addBackgroundJob_close-model">关闭</button>
+                        <button type="button" class="btn btn-primary" id="addBackgroundJob_save-model" data-url="@Url.WebApiUrl("CreateRecurringJob")">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>    

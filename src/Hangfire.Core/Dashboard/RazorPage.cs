@@ -80,7 +80,7 @@ namespace Hangfire.Dashboard
             AppPath = parentPage.AppPath;
             StatsPollingInterval = parentPage.StatsPollingInterval;
             Url = parentPage.Url;
-
+            Url.ApiPath = parentPage.Url.ApiPath;
             GenerationTime = parentPage.GenerationTime;
             _statisticsLazy = parentPage._statisticsLazy;
         }
@@ -94,7 +94,7 @@ namespace Hangfire.Dashboard
             AppPath = context.Options.AppPath;
             StatsPollingInterval = context.Options.StatsPollingInterval;
             Url = new UrlHelper(context);
-
+            Url.ApiPath = context.Options.ApiPath;
             _statisticsLazy = new Lazy<StatisticsDto>(() =>
             {
                 var monitoring = Storage.GetMonitoringApi();

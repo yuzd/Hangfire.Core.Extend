@@ -482,3 +482,82 @@
 $(function () {
     Hangfire.page = new Hangfire.Page(Hangfire.config);
 });
+$(function () {
+    var options = {
+        schema: {
+            
+        },
+        mode: 'code'
+    }
+    var container = $('.editor_holder')[0];
+    var templete =
+        "{\"Method\":\"\",\"ContentType\":\"application/json\",\"Url\":\"\",\"DelayFromMinutes\":1,\"ParamRedisKey\":\"\",\"Timeout\":10000,\"Corn\":\"\",\"BasicUserName\":\"\",\"BasicPassword\":\"\",\"Id\":0}";
+    try {
+        window.jsonEditor = new JSONEditor(container, options);
+    } catch (e) {
+
+    }
+    $('#search')
+        .click(function() {
+            var title = $('#title').val();
+            if (title) {
+                location.href = baseUrl + '?from=0&count=10&name=' + title;
+            } else {
+                location.href = baseUrl + '?from=0&count=10';
+            }
+        });
+
+    if (name) {
+        //$('#title').val(name);
+        try {
+            $('.btn-toolbar-label').hide();
+            $('.paginator').hide();
+        } catch (e) {
+
+        }
+    }
+
+    $('#corn_Create')
+        .click(function() {
+
+            location.replace('/corn');
+        });
+
+    $('#addBackgroundJob').click(function () {
+        window.jsonEditor.setText(templete);
+        window.jsonEditor.format();
+        $('#addBackgroundJobModal').modal({ backdrop: 'static', keyboard: false });
+        $('#myModal').modal('show');
+    });
+
+    $('#addBackgroundJob_close-model').click(function() {
+        $('#addBackgroundJobModal').modal('hide');
+        window.jsonEditor.setText('{}');
+    });
+
+    $('#addBackgroundJob_save-model').click(function () {
+        var url = $(this).data("url");
+        if (!url) return;
+        var data = window.jsonEditor.get();
+        if (!data) return;
+        if (data.Corn && data.Corn.split(' ').length !== 5) {
+            return;
+        }
+        var settings = {
+            "async": true,
+            "url": url,
+            "method": "POST",
+            "data": data
+        }
+        $.ajax(settings).done(function (response) {
+            alert('success');
+            $('#addBackgroundJobModal').modal('hide');
+            window.jsonEditor.setText('{}');
+            location.reload();
+        }).fail(function () {
+            alert("error");
+        });
+    });
+    $('.jsoneditor-menu').hide();
+});
+

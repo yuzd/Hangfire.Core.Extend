@@ -33,6 +33,7 @@ namespace Hangfire
         /// The path for the Back To Site link. Set to <see langword="null" /> in order to hide the Back To Site link.
         /// </summary>
         public string AppPath { get; set; }
+        public Dictionary<string,string> ApiPath { get; set; }
 
 #if NETFULL
         [Obsolete("Please use `Authorization` property instead. Will be removed in 2.0.0.")]

@@ -1,5 +1,5 @@
 // This file is part of Hangfire.
-// Copyright © 2013-2014 Sergey Odinokov.
+// Copyright ?2013-2014 Sergey Odinokov.
 // 
 // Hangfire is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as 
@@ -32,7 +32,7 @@ namespace Hangfire.Storage
 
         JobList<ProcessingJobDto> ProcessingJobs(int from, int count);
         JobList<ScheduledJobDto> ScheduledJobs(int from, int count);
-        JobList<SucceededJobDto> SucceededJobs(int from, int count);
+        JobList<SucceededJobDto> SucceededJobs(int from, int count,string name = null);
         JobList<FailedJobDto> FailedJobs(int from, int count);
         JobList<DeletedJobDto> DeletedJobs(int from, int count);
 

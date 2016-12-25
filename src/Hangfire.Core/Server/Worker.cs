@@ -1,5 +1,5 @@
 // This file is part of Hangfire.
-// Copyright © 2013-2014 Sergey Odinokov.
+// Copyright ?2013-2014 Sergey Odinokov.
 // 
 // Hangfire is free software: you can redistribute it and/or modify
 // it under the terms of the GNU Lesser General Public License as 
@@ -16,10 +16,14 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using Hangfire.Annotations;
+using Hangfire.Common;
+using Hangfire.Dashboard.Resources;
 using Hangfire.Logging;
 using Hangfire.States;
 using Hangfire.Storage;
@@ -193,8 +197,9 @@ namespace Hangfire.Server
 
                 var result = _performer.Perform(performContext);
                 duration.Stop();
-
-                return new SucceededState(result, (long) latency, duration.ElapsedMilliseconds);
+                var state = new SucceededState(result, (long) latency, duration.ElapsedMilliseconds);
+                state.Reason = GetJobName(jobData.Job);
+                return state;
             }
             catch (JobAbortedException)
             {
@@ -222,6 +227,32 @@ namespace Hangfire.Server
                     Reason = "An exception occurred during processing of a background job."
                 };
             }
+
+
+        }
+
+        private static string GetJobName(Job job)
+        {
+
+            if (job == null)
+            {
+                return Strings.Common_CannotFindTargetMethod;
+            }
+
+            var displayNameAttribute = job.Method.GetCustomAttribute(typeof(DisplayNameAttribute)) as DisplayNameAttribute;
+            if (displayNameAttribute != null && displayNameAttribute.DisplayName != null)
+            {
+                try
+                {
+                    return String.Format(displayNameAttribute.DisplayName, job.Args.ToArray());
+                }
+                catch (FormatException)
+                {
+                    return displayNameAttribute.DisplayName;
+                }
+            }
+
+            return job.ToString();
         }
     }
 }
